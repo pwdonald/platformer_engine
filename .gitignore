@@ -1,0 +1,7 @@
+*.js
+*.js.map
+*.csproj
+*.config
+*.user
+obj/
+bin/
