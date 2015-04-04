@@ -5,31 +5,28 @@ module Draw.Sprites {
         y: number;
 
         drawContext: CanvasRenderingContext2D;
-        width: number;
-        height: number;
         image: HTMLImageElement;
         frameCount: number;
         frameIndex: number;
         timePerFrame: number;
         time: number = 0;
+        frameWidth: number;
+        frameOffsetX: number;
 
         constructor(options: ISpriteOptions) {
             this.x = options.x;
             this.y = options.y;
             this.drawContext = options.context;
-            this.width = options.width + 1;
-            this.height = options.height;
             this.image = options.image;
             this.frameCount = options.frames;
             this.frameIndex = options.startFrame || 0;
             this.timePerFrame = options.timePerFrame;
+            this.frameOffsetX = this.frameIndex * this.image.width / this.frameCount;
+            this.frameWidth = this.image.width / this.frameCount;
         }
 
         draw(): void {
-            var frameOffsetX: number = this.frameIndex * this.width / this.frameCount,
-                frameWidth: number = this.width / this.frameCount;
-
-            this.drawContext.drawImage(this.image, frameOffsetX, 0, frameWidth, this.height, this.x, this.y, frameWidth, this.height);
+            this.drawContext.drawImage(this.image, this.frameOffsetX, 0, this.frameWidth, this.image.height, this.x, this.y, this.frameWidth, this.image.height);
         }
 
         update(): void {
