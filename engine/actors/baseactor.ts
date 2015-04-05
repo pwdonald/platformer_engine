@@ -37,8 +37,8 @@ module Engine.Actors {
         }
 
         calculateCenter() {
-            this.centerX = (this.x + this.width) / 2;
-            this.centerY = (this.y + this.height) / 2;
+            this.centerX = (this.x + (this.width / 2));
+            this.centerY = (this.y + (this.height / 2));
         }
         
         render() {
