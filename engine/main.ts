@@ -16,6 +16,7 @@ var initialize = () => {
     canvas.height = 480;
 
     context = canvas.getContext('2d');
+    context.translate(0.5, 0.5);
 
     player = new Engine.Actors.Player(canvas.width / 2, canvas.height / 2);
 
