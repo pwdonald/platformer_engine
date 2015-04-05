@@ -5,16 +5,21 @@ var FPS = 60,
     canvas: HTMLCanvasElement,
     context: CanvasRenderingContext2D,
     player: Engine.Actors.Player,
-    physicsEngine: Engine.Physics.PhysicsEngine;
+    physicsEngine: Engine.Physics.PhysicsEngine,
+    ground: Engine.Physics.Boundary;
 
 var initialize = () => {
     canvas = <HTMLCanvasElement>document.getElementById('screen');
-    context = canvas.getContext('2d');
-    player = new Engine.Actors.Player(canvas.width / 2, canvas.height / 2);
-    physicsEngine = new Engine.Physics.PhysicsEngine([player], []);
-
     canvas.width = 640;
     canvas.height = 480;
+
+    context = canvas.getContext('2d');
+
+    player = new Engine.Actors.Player(canvas.width / 2, canvas.height / 2);
+
+    ground = new Engine.Physics.Boundary(0, canvas.height - 2, canvas.width, 2);
+
+    physicsEngine = new Engine.Physics.PhysicsEngine([player], [ground]);
 
     renderLoop();
 }
@@ -24,6 +29,7 @@ var renderLoop = () => {
     context.clearRect(0, 0, canvas.width, canvas.height);
     physicsEngine.calculateVelocities();
     physicsEngine.moveActors();
+    ground.draw();
     player.render();
 };
 

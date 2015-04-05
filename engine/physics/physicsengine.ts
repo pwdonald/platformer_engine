@@ -12,7 +12,7 @@ module Engine.Physics {
     export class PhysicsEngine {
         public keysDown: Keys;
 
-        constructor(public actors: Array<IMoves>, boundaries: Array<Boundary>, public friction: number = 0.8, public gravity: number = 0.3) {
+        constructor(public actors: Array<IMoves>, public boundaries: Array<Boundary>, public friction: number = 0.8, public gravity: number = 0.3) {
             this.keysDown = new Keys();
         }
 
@@ -37,10 +37,10 @@ module Engine.Physics {
                     }
 
                     if (keys.up) {
-                        if (!actor.jumping) {
+                        if (!actor.jumping && actor.grounded) {
                             actor.vy -= actor.speed * 2;
                             actor.jumping = true;
-                            console.log(actor.vy);
+                            actor.grounded = false;
                         }
                     }
                 }
@@ -49,30 +49,76 @@ module Engine.Physics {
 
         moveActors() {
             for (var i = 0; i < this.actors.length; i++) {
-                //checkCollisions()
                 var actor = this.actors[i];
 
-                actor.dx = actor.x + actor.vx;
-                actor.dy = actor.y + actor.vy;
-
-                actor.y = actor.dy;
-
-                if (actor.dx >= 0 && actor.dx <= 640 - actor.width) {
-                    actor.x += actor.vx;
-                    actor.vx *= this.friction;
-                }
-
-                if (actor.y >= 480 - actor.height) {
-                    actor.vy = 0;
-                    actor.jumping = false;
-                    actor.y = 480 - actor.height;
-                }
+                actor.vx *= this.friction;
                 actor.vy += this.gravity;
+
+                actor.grounded = false;
+
+                for (var j = 0; j < this.boundaries.length; j++) {
+                    var boundary = this.boundaries[j];
+
+                    var collisionDirection = this.checkCollisionsDirection(actor, boundary);
+
+                    if (collisionDirection === 'left' || collisionDirection === 'right') {
+                        actor.vx = 0;
+                        actor.jumping = false;
+                    } else if (collisionDirection === 'bottom') {
+                        actor.grounded = true;
+                        actor.jumping = false;
+                    } else if (collisionDirection === 'top') {
+                        actor.vy *= -1;
+                    }
+                }
+
+                if (actor.grounded) {
+                    actor.vy = 0;
+                }
+
+                actor.y = actor.y + actor.vy;
+                actor.x = actor.x + actor.vx;
             }
         }
 
-        checkCollisions() {
+        checkCollisionsDirection(subject1: IMoves, subject2: IMoves | Boundary): string {
+            // If no collision an empty string will be returned.
+            var collisionDirection = '';
 
+            // create a vector from the center of subject1 to the center of subject2
+            var vectorX = subject1.centerX - subject2.centerX,
+                vectorY = subject1.centerY - subject2.centerY;
+
+            // calculate how close the objects can be before they overlap
+            var maxProximityWidth = (subject1.width / 2) + (subject2.width / 2),
+                maxProximityHeight = (subject1.height / 2) + (subject2.height / 2);
+
+            // detect a collision
+            if (Math.abs(vectorX) < maxProximityWidth && Math.abs(vectorY) < maxProximityHeight) {
+                // calculate the direction of collision
+                var collisionY = maxProximityHeight - Math.abs(vectorY),
+                    collisionX = maxProximityWidth - Math.abs(vectorX);
+
+                // figure out which side the objects collided
+                if (collisionX >= collisionY) {
+                    if (vectorY > 0) {
+                        collisionDirection = 'top';
+                        subject1.y += collisionY;
+                    } else {
+                        collisionDirection = 'bottom';
+                        subject1.y -= collisionY;
+                    }
+                } else {
+                    if (vectorX > 0) {
+                        collisionDirection = 'left';
+                        subject1.x += collisionX;
+                    } else {
+                        collisionDirection = 'right';
+                        subject1.x -= collisionX;
+                    }
+                }
+            }
+            return collisionDirection;
         }
     }
 } 

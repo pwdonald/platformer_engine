@@ -12,5 +12,7 @@
         jumping: boolean;
         grounded: boolean;
         controllable: boolean;
+        centerX: number;
+        centerY: number;
     }
 } 

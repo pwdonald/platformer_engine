@@ -18,14 +18,15 @@ module Draw.Sprites {
             this.y = options.y;
             this.drawContext = options.context;
             this.image = options.image;
+            this.image.width = this.image.width + 1;
             this.frameCount = options.frames;
             this.frameIndex = options.startFrame || 0;
             this.timePerFrame = options.timePerFrame;
-            this.frameOffsetX = this.frameIndex * this.image.width / this.frameCount;
             this.frameWidth = this.image.width / this.frameCount;
         }
 
         draw(): void {
+            this.frameOffsetX = this.frameIndex * this.image.width / this.frameCount;
             this.drawContext.drawImage(this.image, this.frameOffsetX, 0, this.frameWidth, this.image.height, this.x, this.y, this.frameWidth, this.image.height);
         }
 

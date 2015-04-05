@@ -1,5 +1,17 @@
 ﻿module Engine.Physics {
     export class Boundary {
-        constructor(public x: number, public y: number, public width: number, public height: number) { }
+        centerX: number;
+        centerY: number;
+
+        constructor(public x: number, public y: number, public width: number, public height: number) {
+            this.centerX = (this.x + this.width) / 2;
+            this.centerY = (this.y + this.height) / 2;
+        }
+
+        draw() {
+            context.fillStyle = 'black';
+            context.rect(this.x, this.y, this.width, this.height);
+            context.fill();
+        }
     }
 } 

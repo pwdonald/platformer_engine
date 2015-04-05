@@ -13,11 +13,13 @@ module Engine.Actors {
         jumping: boolean;
         grounded: boolean = false;
         controllable: boolean = false;
+        centerX: number;
+        centerY: number;
 
         constructor(actorWidth:number, actorHeight: number, actorImage: HTMLImageElement, x: number, y: number, speed: number, controllable: boolean) {
             super(<Draw.Sprites.ISpriteOptions> {
-                x: x + (actorWidth / 2),
-                y: y + (actorHeight / 2),
+                x: x,
+                y: y,
                 image: actorImage,
                 frames: 2,
                 startFrame: 0,
@@ -31,9 +33,16 @@ module Engine.Actors {
             this.height = actorHeight;
             this.controllable = controllable;
             this.speed = speed;
+            this.calculateCenter();
+        }
+
+        calculateCenter() {
+            this.centerX = (this.x + this.width) / 2;
+            this.centerY = (this.y + this.height) / 2;
         }
         
         render() {
+            this.calculateCenter();
             this.update();
             this.draw();
         }
