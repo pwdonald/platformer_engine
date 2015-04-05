@@ -12,6 +12,7 @@ module Draw.Sprites {
         time: number = 0;
         frameWidth: number;
         frameOffsetX: number;
+        facingFront = true;
 
         constructor(options: ISpriteOptions) {
             this.x = options.x;

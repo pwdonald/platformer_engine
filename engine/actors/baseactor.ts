@@ -43,6 +43,13 @@ module Engine.Actors {
         
         render() {
             this.calculateCenter();
+
+            if (this.vx < 0) {
+                this.facingFront = false;
+            } else if (this.vx > 0) {
+                this.facingFront = true;
+            }
+
             this.update();
             this.draw();
         }
