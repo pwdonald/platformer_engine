@@ -1,5 +1,7 @@
 /// <reference path="_references.d.ts" />
 /// <reference path="actors/player.ts" />
+/// <reference path="physics/physicsengine.ts" />
+/// <reference path="physics/boundary.ts" />
 
 var FPS = 60,
     canvas: HTMLCanvasElement,

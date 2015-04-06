@@ -1,4 +1,5 @@
 ﻿/// <reference path="../_references.d.ts" />
+/// <reference path="./baseactor.ts" />
 
 module Engine.Actors {
     export class Player extends BaseActor {
