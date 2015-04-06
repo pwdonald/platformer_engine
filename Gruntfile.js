@@ -15,24 +15,10 @@ module.exports = function (grunt) {
                 out: './app.js',
                 src: files
             }
-        },
-        browserify: {
-            dist: {
-                files: {
-                    './app.js': './engine/main.js'
-                },
-                options: {
-                    browserifyOptions: {
-                        debug: true
-                    }
-                }
-            }
         }
-        
     });
     
-    grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-ts');
     
-    grunt.registerTask('default', ['ts', 'browserify']);
+    grunt.registerTask('default', ['ts']);
 };
