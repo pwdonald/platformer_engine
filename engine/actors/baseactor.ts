@@ -1,4 +1,4 @@
-﻿/// <reference path="../_references.d.ts" />
+/// <reference path="../_references.d.ts" />
 /// <reference path="../draw/sprites/sprite.ts" />
 
 module Engine.Actors {
@@ -54,4 +54,4 @@ module Engine.Actors {
             this.draw();
         }
     }
-} 
+}
