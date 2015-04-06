@@ -5,3 +5,6 @@
 *.user
 obj/
 bin/
+node_modules/
+!Gruntfile.js
+.tscache/
