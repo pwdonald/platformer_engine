@@ -1,0 +1,29 @@
+{
+  "name": "platformer_engine",
+  "version": "0.0.1-beta1",
+  "description": "A HTML5 platformer game engine written in TypeScript.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pwdonald/platformer_engine.git"
+  },
+  "keywords": [
+    "game",
+    "platform",
+    "typescript",
+    "2d"
+  ],
+  "author": "Donald R Jones <donald@birminghamdeveloper.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pwdonald/platformer_engine/issues"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^3.6.0",
+    "grunt-ts": "^4.0.1"
+  }
+}
