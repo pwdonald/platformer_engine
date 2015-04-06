@@ -1,6 +1,6 @@
 module.exports = function (grunt) {
     var files = [
-                './engine/*.ts',
+        './engine/*.ts',
         './engine/**/*.ts'
     ];
     grunt.initConfig({
