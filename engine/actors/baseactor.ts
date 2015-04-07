@@ -2,7 +2,34 @@
 /// <reference path="../draw/sprites/sprite.ts" />
 
 module Engine.Actors {
-    export class BaseActor extends Draw.Sprites.Sprite implements Engine.Physics.IMoves {
+    export class ActorAction {
+        constructor(public sprite: Draw.Sprites.Sprite, public action?: string) { }
+    }
+
+    export class ActorActions {
+        walking_right: ActorAction;
+        walking_left: ActorAction;
+
+        running_right: ActorAction;
+        running_left: ActorAction;
+
+        standing_left: ActorAction;
+        standing_right: ActorAction;
+
+        jumping_left: ActorAction;
+        jumping_right: ActorAction;
+
+        misc: Array<ActorAction>;
+
+        constructor(standing_left: ActorAction, standing_right: ActorAction) {
+            this.standing_left = standing_left;
+            this.standing_right = standing_right;
+        }
+    }
+
+    export class BaseActor implements Engine.Physics.IMoves {
+        x: number;
+        y: number;
         width: number;
         height: number;
         vx: number = 0;
@@ -15,20 +42,12 @@ module Engine.Actors {
         controllable: boolean = false;
         centerX: number;
         centerY: number;
+        currentAction: ActorAction;
 
-        constructor(actorWidth:number, actorHeight: number, actorImage: HTMLImageElement, x: number, y: number, speed: number, controllable: boolean) {
-            super(<Draw.Sprites.ISpriteOptions> {
-                x: x,
-                y: y,
-                image: actorImage,
-                frames: 2,
-                startFrame: 0,
-                width: actorImage.width,
-                height: actorImage.height,
-                context: context,
-                timePerFrame: FPS
-            });
-
+        constructor(public actions: ActorActions, actorWidth: number, actorHeight: number, x: number, y: number, speed: number, controllable: boolean) {
+            this.x = x;
+            this.y = y;
+            
             this.width = actorWidth;
             this.height = actorHeight;
             this.controllable = controllable;
@@ -45,13 +64,19 @@ module Engine.Actors {
             this.calculateCenter();
 
             if (this.vx < 0) {
-                this.facingFront = false;
+                if (this.jumping || this.vy > 0) {
+                    this.currentAction = this.actions.jumping_left;
+                }
+                this.currentAction = this.actions.walking_left;
             } else if (this.vx > 0) {
-                this.facingFront = true;
+                if (this.jumping || this.vy > 0) {
+                    this.currentAction = this.actions.jumping_right;
+                }
+                this.currentAction = this.actions.walking_right;
             }
 
-            this.update();
-            this.draw();
+            this.currentAction.sprite.update(this.x, this.y);
+            this.currentAction.sprite.draw();
         }
     }
 }

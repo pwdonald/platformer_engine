@@ -31,7 +31,15 @@ module Draw.Sprites {
             this.drawContext.drawImage(this.image, this.frameOffsetX, 0, this.frameWidth, this.image.height, this.x, this.y, this.frameWidth, this.image.height);
         }
 
-        update(): void {
+        update(x?: number, y?: number): void {
+            if (x) {
+                this.x = x;
+            }
+
+            if (y) {
+                this.y = y;
+            }
+
             this.time += 1;
 
             if (this.time > this.timePerFrame) {

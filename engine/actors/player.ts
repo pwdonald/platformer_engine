@@ -5,10 +5,17 @@ module Engine.Actors {
     export class Player extends BaseActor {
 
         constructor(x: number, y: number) {
-            var playerImage = new Image();
-            playerImage.src = 'assets/img/player_standing.png';
-            playerImage.width = 25;
-            playerImage.height = 20;
+            
+            
+            var standingActionLeft =
+                new ActorAction(
+                    new Draw.Sprites.Sprite(<Draw.Sprites.ISpriteOptions>{
+                        context: context,
+                        frames: 2,
+                        height: 12,
+                        width: 20,
+                        image: 
+                    }));
 
             super(12, 20, playerImage, x, y, 5, true);
         }
